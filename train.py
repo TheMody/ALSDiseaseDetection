@@ -1,7 +1,7 @@
 
 import torch
 from model import Model
-from dataloader import load_processed_data, load_data, DatasetLoader
+from dataloader import load_processed_data, load_data, GeneticDataset
 import numpy as np
 import wandb
 from cosine_scheduler import CosineWarmupScheduler
@@ -14,10 +14,10 @@ from torch.utils.data import DataLoader
 epochs = 10
 batch_size = 64
 
-training_data = DatasetLoader()
+training_data = GeneticDataset()
 train_length = len(training_data)
 
-test_data = DatasetLoader(train=False)
+test_data = GeneticDataset(train=False)
 scheduler = CosineWarmupScheduler(optimizer, warmup=10, max_iters=int(train_length/batch_size*epochs))
 train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
 test_dataloader = DataLoader(test_data, batch_size=64)

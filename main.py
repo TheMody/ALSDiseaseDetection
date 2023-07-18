@@ -2,7 +2,6 @@ import argparse
 import os
 import datetime as dt
 import configparser
-from logger import Logger
 import shutil
 import sys
 

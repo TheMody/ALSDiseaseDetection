@@ -14,7 +14,7 @@ def load_data():
 
     return np.asarray(dataset_X), np.asarray(Y)
 
-class DatasetLoader(Dataset):
+class GeneticDataset(Dataset):
     def __init__(self, train = True):
         self.train = train
 
