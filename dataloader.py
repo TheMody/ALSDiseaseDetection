@@ -22,9 +22,7 @@ def load_data():
     return np.asarray(dataset_X), np.asarray(Y)
 
 class GeneticDataset(Dataset):
-    def __init__(self, train = True):
-        self.train = train
-
+    def __init__(self):
         self.x,self.y = load_data()
      #   self.x = self.x[:int(0.1*len(self.x))]
      #   self.y = self.y[:int(0.1*len(self.y))]
@@ -34,20 +32,6 @@ class GeneticDataset(Dataset):
         self.x = self.x[p]
         self.y = self.y[p]
 
-        if self.train:
-            self.x = self.x[:int(0.8*len(self.x))]
-            self.y = self.y[:int(0.8*len(self.y))]
-        else:
-            self.x = self.x[int(0.8*len(self.x)):]
-            self.y = self.y[int(0.8*len(self.y)):]
-
-        # unique, count = np.unique(self.x_train, return_counts=True, axis = 0)
-        # print(len(count))
-        # unique, count = np.unique(self.x_test, return_counts=True, axis = 0)
-        # print(len(count))
-        # unique, count = np.unique(self.x, return_counts=True, axis = 0)
-        # print(len(count))
-
     def __len__(self):
         return len(self.x)
 
@@ -55,6 +39,19 @@ class GeneticDataset(Dataset):
         genome = self.x[idx]
         label = self.y[idx]
         return genome, label
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def preprocess_data():

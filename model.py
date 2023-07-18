@@ -7,14 +7,12 @@ class MLPModel(nn.Module):
         hidden_dim = 256
         self.dense1 = nn.Linear(num_input, hidden_dim)
         self.dense2 = nn.Linear(hidden_dim, hidden_dim)
-      #  self.dense3 = nn.Linear(64, hidden_dim)
         self.dense3 = nn.Linear(hidden_dim, num_classes)
 
     def forward(self, x):
         x = F.gelu(self.dense1(x))
         x = F.gelu(self.dense2(x))
-     #   x = F.gelu(self.dense3(x))
-        return F.softmax(self.dense3(x))
+        return F.softmax(self.dense3(x), dim=1)
 
 class PCAMLPModel(nn.Module):
     #input should be (batchsize, num_pcas, dim_pcas)
@@ -32,4 +30,4 @@ class PCAMLPModel(nn.Module):
         x = F.gelu(self.dense1(x))
         x = F.gelu(self.dense2(x))
      #   x = F.gelu(self.dense3(x))
-        return F.softmax(self.dense3(x))
+        return F.softmax(self.dense3(x), dim=1)
