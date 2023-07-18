@@ -1,13 +1,13 @@
 
 import torch
-from model import Model
+from model import MLPModel
 from dataloader import load_processed_data, load_data, GeneticDataset
 import numpy as np
 import wandb
 from cosine_scheduler import CosineWarmupScheduler
 import tqdm
 #ds = load_processed_data()
-model = Model()
+model = MLPModel()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
 from torch.utils.data import DataLoader
@@ -51,8 +51,8 @@ for epoch in range(epochs):
         #  print(outputs.shape)
             # Compute the loss and its gradients
             loss = loss_fn(outputs, labels)
-            l1_lambda = 1e-3
-            l1_norm = sum([torch.norm(p, p=1) for p in model.parameters()])
+            l1_lambda = 1e-4
+            l1_norm = sum([torch.norm(p, p=2) for p in model.parameters()])
             loss += l1_lambda * l1_norm
             loss.backward()
 
