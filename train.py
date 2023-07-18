@@ -7,13 +7,12 @@ import wandb
 from cosine_scheduler import CosineWarmupScheduler
 import tqdm
 #ds = load_processed_data()
-ds,dsy = load_data()
 model = Model()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
 from torch.utils.data import DataLoader
 epochs = 100
-batch_size = 128
+batch_size = 64
 
 training_data = DatasetLoader()
 train_length = len(training_data)
@@ -52,7 +51,7 @@ for epoch in range(epochs):
         #  print(outputs.shape)
             # Compute the loss and its gradients
             loss = loss_fn(outputs, labels)
-            l1_lambda = 1e-5
+            l1_lambda = 1e-3
             l1_norm = sum([torch.norm(p, p=1) for p in model.parameters()])
             loss += l1_lambda * l1_norm
             loss.backward()
@@ -91,5 +90,5 @@ for epoch in range(epochs):
         print(' test epoch {} loss: {} accuracy: {}'.format(epoch+1, accummulated_loss/len(test_dataloader), accummulated_acc/len(test_dataloader)))
     if accummulated_acc/len(test_dataloader) > best_acc:
         best_acc = accummulated_acc/len(test_dataloader)
-        torch.save(model.state_dict(), "model"+str(epoch)+ str(best_acc) +".pt")
+        torch.save(model.state_dict(), "models/model"+ str(best_acc) +".pt")
   #  model.save("model"+str(epoch)+".pt")
