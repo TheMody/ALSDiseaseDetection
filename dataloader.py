@@ -54,6 +54,8 @@ class GeneticDataset(Dataset):
 
 
 
+
+
 def preprocess_data():
     ds = load_data()
     names = list(ds.columns.values)
@@ -91,8 +93,29 @@ def load_processed_data():
     fileObject = open("data/processed_ds", 'rb')
     ds = pickle.load(fileObject)
     fileObject.close()
-    return ds
+    ds = ds.astype(np.float32)
+    _,Y=pickle.load(open('data/sigSNPs_pca.features.pkl','rb'))
+    return ds,Y
 
 
 
 #ds = load_processed_data()
+
+class GeneticDatasetpreprocessed(Dataset):
+    def __init__(self):
+        self.x,self.y = load_processed_data()
+     #   self.x = self.x[:int(0.1*len(self.x))]
+     #   self.y = self.y[:int(0.1*len(self.y))]
+        #now we shuffle x and y
+        np.random.seed(42)
+        p = np.random.permutation(len(self.x))
+        self.x = self.x[p]
+        self.y = self.y[p]
+
+    def __len__(self):
+        return len(self.x)
+
+    def __getitem__(self, idx):
+        genome = self.x[idx]
+        label = self.y[idx]
+        return genome, label
